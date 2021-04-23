@@ -1,0 +1,54 @@
+from astropy.io import fits
+from astropy.wcs import WCS     # imports World Coordinate System
+from astropy.coordinates import SkyCoord
+
+
+
+RA_list = [
+    '03h29m00.575s', '03h29m10.537s', '03h29m12.016s',
+    '03h29m13.548s', '03h29m04.055s', '03h29m11.258s',
+    '03h29m10.668s', '03h28m55.569s', '03h28m57.374s',
+    '03h29m18.965s', '03h29m03.766s', '03h29m12.953s',
+    '03h29m07.768s', '03h28m39.699s', '03h29m01.549s',
+    '03h29m03.331s', '03h28m58.422s', '03h28m43.271s',
+    '03h28m56.316s'
+    ]
+DEC_list = [
+    '+31d12m00.204s', '+31d13m30.925s', '+31d13m08.031s',
+    '+31d13m58.150s', '+31d14m46.237s', '+31d18m31.073s',
+    '+31d18m20.191s', '+31d14m37.022s', '+31d14m15.765s',
+    '+31d23m14.304s', '+31d16m03.810s', '+31d18m14.289s',
+    '+31d21m57.128s', '+31d17m31.882s', '+31d20m20.497s',
+    '+31d23m14.573s', '+31d22m17.481s', '+31d17m32.931s',
+    '+31d22m27.798s'
+    ]
+# above defines Right Ascension in #hours#minutes#seconds
+# above defines Declination in #degrees#minutes#seconds
+
+fn = 'NGC1333_BAngle.fits'  # defines the B_angles fits file
+f = fits.open(fn)           # opens the fits file previously defined
+w = WCS(f[0].header)
+
+c = SkyCoord(RA_list, DEC_list)       # creates a SkyCoord object representing RA and DEC
+
+x, y = w.world_to_pixel(c)   # converts RA and DEC to pixel values
+print(x, y)                  # prints pixel values after conversion
+
+data = f[0].data
+
+for i in range(len(x)):
+    xpix = round(x[i])
+    ypix = round(y[i])
+    Bfield = data[ypix][xpix]
+    print (Bfield)
+
+
+# for RA_list and DEC_list, the Perseus objects that correspond to the lists
+# are:
+# [Per3, Per12, Per13,
+#  Per14, Per15, Per18,
+#  Per21, Per27, Per36,
+#  Per37, Per44, Per49,
+#  Per50, Per52, Per54,
+#  Per57, Per58, Per63,
+#  Per65]
