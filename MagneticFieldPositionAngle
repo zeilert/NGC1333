@@ -1,3 +1,6 @@
+# Zachary Eilert
+# This code will take in Right Ascension and Declination values and produce pixel values. Those pixel values are then converted to degrees.
+
 from astropy.io import fits
 from astropy.wcs import WCS     # imports World Coordinate System
 from astropy.coordinates import SkyCoord
